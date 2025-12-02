@@ -30,9 +30,10 @@ This automation tool extracts data from SEMrush Site Audit PDFs and generates co
 - **Smart Fallbacks**: Uses defaults when data is incomplete
 
 ### Professional Presentation
-- **14 Strategic Slides**: Following proven audit narrative structure
+- **26 Strategic Slides**: Complete audit framework (Index 0-25)
 - **Executive Summary**: Generated from section insights
 - **Business Impact Translation**: Technical issues → Revenue risk/opportunity
+- **7 Chapters**: Setup → Executive Summary → Analysis → Action Plan
 
 ---
 
@@ -79,38 +80,50 @@ The tool generates `SEO_Strategy.pptx` with:
 
 ---
 
-## 📊 Slide Structure
+## 📊 Slide Structure (26 Slides Total)
 
-### Chapter 1: Setup (Slides 1-4)
-- **Cover**: Title and audit period
-- **Overview**: Framework and methodology
-- **Planning Phase**: Strategic context
-- **Index**: Navigation structure
+### Chapter 1: Setup (Slides 0-3)
+- **Slide 0: Cover** - Title and audit period
+- **Slide 1: Overview** - Framework and methodology
+- **Slide 2: Planning Phase** - Strategic context
+- **Slide 3: Index** - Navigation structure
 
-### Chapter 2: Executive Summary (Slide 5)
-- **Path to Digital Visibility**: 4-column strategic summary
-- Generated LAST, synthesizes all findings
+### Chapter 2: Executive Summary (Slide 4)
+- **Slide 4: Path to Digital Visibility**
+- 4-column strategic summary (General/Content/Technical/Authority)
+- Generated from section summaries
 - Translates technical debt → business constraint
 
-### Chapter 3: Where You Stand (Slides 6-11)
-- **Site Health**: Health score + error analysis
-- Establishes baseline performance
-- Identifies foundation issues vs. optimization opportunities
+### Chapter 3: Where You Stand (Slides 5-10)
+- **Slide 5: Section Divider**
+- **Slide 6: Organic Traffic Analysis** - Channel mix & keyword positioning
+- **Slide 7: Competitive Benchmarking** - Market position assessment
+- **Slide 8: User Engagement Quality** - Traffic quality metrics
+- **Slide 9: Site Health Assessment** - Technical foundation analysis
+- **Slide 10: Section Summary** - 3-box layout (Issue → Impact → Action)
 
-### Chapter 4: Content Gaps (Slides 12-16)
-- **Meta Tags**: On-page signal quality
-- **Keyword Gaps**: Missed opportunities
-- Frames content deficiencies as market capture potential
+### Chapter 4: Content Gaps (Slides 11-15)
+- **Slide 11: Section Divider**
+- **Slide 12: Meta Tags & Heading** - On-page optimization gaps
+- **Slide 13: Keyword Gap Analysis** - Uncaptured demand
+- **Slide 14: Keyword Intent Distribution** - Funnel coverage
+- **Slide 15: Section Summary** - 3-box layout (Issue → Impact → Action)
 
-### Chapter 5: Technical Gaps (Slides 17-19)
-- **Technical Issues**: Crawlability/indexability barriers
-- Connects technical debt → traffic loss → revenue impact
-- Prioritizes fixes by business consequence
+### Chapter 5: Technical Gaps (Slides 16-18)
+- **Slide 16: Section Divider**
+- **Slide 17: Technical SEO Issues** - Crawlability/indexability barriers
+- **Slide 18: Section Summary** - 3-box layout (Issue → Impact → Action)
 
-### Chapter 6: Path Forward (Slides 20-22)
-- **Findings Summary**: Consolidated action plan
-- **KPIs**: Success metrics and benchmarks
-- **Thank You**: Professional close
+### Chapter 6: Domain Authority (Slides 19-21)
+- **Slide 19: Section Divider**
+- **Slide 20: Domain Authority Assessment** - Competitive authority gap
+- **Slide 21: Section Summary** - 3-box layout (Issue → Impact → Action)
+
+### Chapter 7: Path Forward (Slides 22-25)
+- **Slide 22: Section Divider**
+- **Slide 23: SEO Audit Findings Summary** - 3-column action plan (Technical/Content/Authority)
+- **Slide 24: KPI Targets & Benchmarks** - Success metrics
+- **Slide 25: Thank You** - Professional close
 
 ---
 
