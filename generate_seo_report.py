@@ -321,37 +321,70 @@ class PowerPointGenerator:
         self.prs.slide_height = Inches(7.5)
 
     def generate_presentation(self):
-        """Generate all slides following slide_logic.md structure"""
+        """Generate all 26 slides following slide_logic.md structure"""
         print("\n🎨 Generating PowerPoint presentation...")
+        print("   Target: 26 slides across 7 chapters")
 
-        # CHAPTER 1: Setup (Slides 1-4)
-        self._add_cover_slide()
-        self._add_overview_slide()
-        self._add_planning_phase_slide()
-        self._add_index_slide()
+        # CHAPTER 1: Setup (Slides 0-3)
+        print("   Chapter 1: Setup (4 slides)")
+        self._add_cover_slide()                    # Slide 0
+        self._add_overview_slide()                 # Slide 1
+        self._add_planning_phase_slide()           # Slide 2
+        self._add_index_slide()                    # Slide 3
 
-        # CHAPTER 2: Executive Summary (Slide 5) - Generated last conceptually
-        # but added here for structure
-        self._add_executive_summary_slide()
+        # CHAPTER 2: Executive Summary (Slide 4)
+        print("   Chapter 2: Executive Summary (1 slide)")
+        self._add_executive_summary_slide()        # Slide 4
 
-        # CHAPTER 3: Where You Stand (Slides 6-11)
-        self._add_section_divider("Where Your Brand Stands Today?")
-        self._add_site_health_slide()
+        # CHAPTER 3: Where You Stand (Slides 5-10)
+        print("   Chapter 3: Where You Stand (6 slides)")
+        self._add_section_divider(f"Where {self.strategist.brand_name} Stands Today?")  # Slide 5
+        self._add_organic_traffic_slide()          # Slide 6
+        self._add_competitive_benchmarking_slide() # Slide 7
+        self._add_user_engagement_slide()          # Slide 8
+        self._add_site_health_slide()              # Slide 9
+        self._add_section_summary_slide(           # Slide 10
+            "Where You Stand - Summary",
+            "organic"
+        )
 
-        # CHAPTER 4: Content Gaps (Slides 12-16)
-        self._add_section_divider("Content Visibility Gaps & Insights")
-        self._add_meta_tags_slide()
+        # CHAPTER 4: Content Gaps (Slides 11-15)
+        print("   Chapter 4: Content Gaps (5 slides)")
+        self._add_section_divider("Content Visibility Gaps & Insights")  # Slide 11
+        self._add_meta_tags_slide()                # Slide 12
+        self._add_keyword_gap_table_slide()        # Slide 13
+        self._add_keyword_intent_slide()           # Slide 14
+        self._add_section_summary_slide(           # Slide 15
+            "Content Gaps - Summary",
+            "content"
+        )
 
-        # CHAPTER 5: Technical Gaps (Slides 17-19)
-        self._add_section_divider("Technical Gaps Limiting Growth")
-        self._add_technical_issues_slide()
+        # CHAPTER 5: Technical Gaps (Slides 16-18)
+        print("   Chapter 5: Technical Gaps (3 slides)")
+        self._add_section_divider("Technical Gaps Limiting Growth")  # Slide 16
+        self._add_technical_issues_slide()         # Slide 17
+        self._add_section_summary_slide(           # Slide 18
+            "Technical Gaps - Summary",
+            "technical"
+        )
 
-        # CHAPTER 6: Path Forward (Slides 20-22)
-        self._add_section_divider("Steps to Improve Your SEO")
-        self._add_findings_summary_slide()
-        self._add_thank_you_slide()
+        # CHAPTER 6: Authority (Slides 19-21)
+        print("   Chapter 6: Domain Authority (3 slides)")
+        self._add_section_divider("Understanding Domain Authority")  # Slide 19
+        self._add_domain_authority_slide()         # Slide 20
+        self._add_section_summary_slide(           # Slide 21
+            "Domain Authority - Summary",
+            "authority"
+        )
 
-        print("✅ Presentation generated!")
+        # CHAPTER 7: Path Forward (Slides 22-25)
+        print("   Chapter 7: Path Forward (4 slides)")
+        self._add_section_divider("Steps to Improve Your SEO")  # Slide 22
+        self._add_findings_summary_slide()         # Slide 23
+        self._add_kpi_benchmark_slide()            # Slide 24
+        self._add_thank_you_slide()                # Slide 25
+
+        print(f"✅ Presentation generated with {len(self.prs.slides)} slides!")
         return self.prs
 
     def _add_cover_slide(self):
@@ -803,8 +836,527 @@ Site health at {health_score}% demonstrates solid technical foundation. While {t
         p.font.size = Pt(11)
         p.level = 1
 
+    def _add_organic_traffic_slide(self):
+        """Slide 6: Organic Traffic Analysis"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "Organic Traffic Analysis"
+
+        # Generate key message
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "KEY INSIGHT"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Organic traffic performance requires GA4 and SEMrush data for complete analysis. Current implementation focuses on technical foundation assessment."
+        p.font.size = Pt(14)
+        p.space_after = Pt(15)
+
+        p = tf.add_paragraph()
+        p.text = "📊 Recommended Data Sources:"
+        p.font.size = Pt(13)
+        p.font.bold = True
+
+        p = tf.add_paragraph()
+        p.text = "• GA4: Channel distribution (Organic vs. Direct vs. Paid)"
+        p.font.size = Pt(12)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• GA4: Geographic sessions by country"
+        p.font.size = Pt(12)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• SEMrush: Keyword position distribution (1-3, 4-10, 11-20, 21+)"
+        p.font.size = Pt(12)
+        p.level = 1
+
+    def _add_competitive_benchmarking_slide(self):
+        """Slide 7: Competitive Benchmarking"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "Competitive Benchmarking"
+
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "KEY INSIGHT"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Competitive analysis requires multi-source data to establish market positioning across authority, traffic, and keyword performance metrics."
+        p.font.size = Pt(14)
+        p.space_after = Pt(15)
+
+        p = tf.add_paragraph()
+        p.text = "📊 Competitive Metrics Table:"
+        p.font.size = Pt(13)
+        p.font.bold = True
+
+        metrics = [
+            "Domain Rating (Ahrefs) - Authority comparison",
+            "Monthly Traffic (SEMrush) - Visibility gap analysis",
+            "Total Keywords - Content coverage comparison",
+            "Page 1 Keywords - Competitive SERP presence",
+            "Referring Domains - Link equity assessment"
+        ]
+
+        for metric in metrics:
+            p = tf.add_paragraph()
+            p.text = f"• {metric}"
+            p.font.size = Pt(11)
+            p.level = 1
+
+    def _add_user_engagement_slide(self):
+        """Slide 8: User Engagement"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "User Engagement Quality"
+
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "KEY INSIGHT"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Traffic volume means nothing if users don't engage. Engagement metrics reveal content-intent alignment and conversion potential."
+        p.font.size = Pt(14)
+        p.font.bold = True
+        p.space_after = Pt(15)
+
+        p = tf.add_paragraph()
+        p.text = "GA4 ENGAGEMENT METRICS"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "• Engagement Rate: % of sessions with meaningful interaction"
+        p.font.size = Pt(12)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Engaged Sessions: Sessions >10s with 2+ pageviews or conversion"
+        p.font.size = Pt(12)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Avg Session Duration: Time spent on site"
+        p.font.size = Pt(12)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = ""
+        p.space_after = Pt(10)
+
+        p = tf.add_paragraph()
+        p.text = "⚠️ Benchmark: Engagement rate >50% indicates quality traffic"
+        p.font.size = Pt(11)
+        p.font.color.rgb = RGBColor(200, 50, 50)
+
+    def _add_section_summary_slide(self, title, section_type):
+        """Generic section summary slide with 3-box layout"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        slide.shapes.title.text = title
+
+        content_box = slide.shapes.add_textbox(Inches(0.8), Inches(1.8), Inches(8.4), Inches(5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        # Title
+        p = tf.paragraphs[0]
+        p.text = "SUMMARY & ACTION PLAN"
+        p.font.size = Pt(14)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(0, 32, 96)
+
+        # Get appropriate data based on section type
+        if section_type == "organic":
+            health_score = self.data.get("site_health", {}).get("score", 75)
+            priority = self.strategist.calculate_priority(health_score=health_score)
+
+            p = tf.add_paragraph()
+            p.text = f"\n📋 What is the Issue?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = f"• Site health at {health_score}% indicates technical foundation gaps"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n💥 What is the Impact?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Google's crawl efficiency compromised, limiting indexation of valuable pages"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n🎯 Our Next Action"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Prioritize technical remediation to establish crawlability foundation"
+            p.font.size = Pt(11)
+            p.level = 1
+
+        elif section_type == "content":
+            meta_issues = self.data.get("meta_issues", [])
+            total_meta = sum(issue["count"] for issue in meta_issues)
+
+            p = tf.add_paragraph()
+            p.text = f"\n📋 What is the Issue?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = f"• Meta optimization gaps across {total_meta:,} pages suppress visibility"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n💥 What is the Impact?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Pages compete against themselves, fragmenting authority and CTR"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n🎯 Our Next Action"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Deploy unique meta tags prioritizing revenue-generating pages first"
+            p.font.size = Pt(11)
+            p.level = 1
+
+        elif section_type == "technical":
+            tech_issues = self.data.get("technical_issues", [])
+
+            p = tf.add_paragraph()
+            p.text = f"\n📋 What is the Issue?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            if tech_issues:
+                p = tf.add_paragraph()
+                p.text = f"• {len(tech_issues)} technical barriers block crawler access and indexation"
+                p.font.size = Pt(11)
+                p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n💥 What is the Impact?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Content investments invisible to search engines, zero ROI on development"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n🎯 Our Next Action"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Address critical crawlability and indexability issues within 48 hours"
+            p.font.size = Pt(11)
+            p.level = 1
+
+        elif section_type == "authority":
+            p = tf.add_paragraph()
+            p.text = f"\n📋 What is the Issue?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Domain authority gap limits competitive positioning on high-value terms"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n💥 What is the Impact?"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Even optimized content won't rank without authority foundation"
+            p.font.size = Pt(11)
+            p.level = 1
+
+            p = tf.add_paragraph()
+            p.text = f"\n🎯 Our Next Action"
+            p.font.size = Pt(12)
+            p.font.bold = True
+
+            p = tf.add_paragraph()
+            p.text = "• Launch strategic link acquisition targeting high-DR industry publications"
+            p.font.size = Pt(11)
+            p.level = 1
+
+    def _add_keyword_gap_table_slide(self):
+        """Slide 13: Keyword Gap Table View"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "Keyword Gap Analysis"
+
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "KEY INSIGHT"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Keyword gap analysis reveals **uncaptured demand** flowing to competitors. Every missing keyword represents market share left on the table."
+        p.font.size = Pt(14)
+        p.font.bold = True
+        p.space_after = Pt(15)
+
+        p = tf.add_paragraph()
+        p.text = "🎯 KEYWORD GAP OPPORTUNITY"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Requires SEMrush Keyword Gap export showing:"
+        p.font.size = Pt(11)
+
+        p = tf.add_paragraph()
+        p.text = "• Missing keywords (competitors rank, you don't)"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Search volume per keyword"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Keyword difficulty score"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Which competitors own each keyword"
+        p.font.size = Pt(11)
+        p.level = 1
+
+    def _add_keyword_intent_slide(self):
+        """Slide 14: Keyword Intent Distribution"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "Keyword Portfolio by Intent"
+
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "KEY INSIGHT"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Intent distribution reveals funnel coverage. Behavioral keywords drive awareness, Device & Utility keywords capture purchase intent."
+        p.font.size = Pt(14)
+        p.space_after = Pt(15)
+
+        p = tf.add_paragraph()
+        p.text = "📊 KEYWORD CATEGORY BREAKDOWN"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        categories = [
+            ("Behavioral", "How-to, guides, benefits → Awareness stage"),
+            ("Device & Utility", "Best, top, comparisons → Consideration stage"),
+            ("Brand", "Brand + reviews, coupons → Decision stage"),
+            ("Location", "Geo-modified terms → Local targeting")
+        ]
+
+        for category, description in categories:
+            p = tf.add_paragraph()
+            p.text = f"• {category}: {description}"
+            p.font.size = Pt(11)
+            p.level = 1
+
+    def _add_domain_authority_slide(self):
+        """Slide 20: Domain Authority"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "Domain Authority Assessment"
+
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "KEY INSIGHT"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "Domain authority determines ranking ceiling. Low authority = can't compete for valuable keywords, even with perfect content."
+        p.font.size = Pt(14)
+        p.font.bold = True
+        p.space_after = Pt(15)
+
+        p = tf.add_paragraph()
+        p.text = "🔗 AUTHORITY METRICS (Ahrefs)"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(100, 100, 100)
+
+        p = tf.add_paragraph()
+        p.text = "• Domain Rating (DR): 0-100 authority score"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Referring Domains: Unique sites linking to you"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• DR Trend: Growing/stable/declining over 6 months"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Competitor Gap: How far behind/ahead of competition"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = ""
+        p.space_after = Pt(10)
+
+        p = tf.add_paragraph()
+        p.text = "⚠️ DR <40 = Can only compete for low-difficulty keywords"
+        p.font.size = Pt(11)
+        p.font.color.rgb = RGBColor(200, 50, 50)
+
+    def _add_kpi_benchmark_slide(self):
+        """Slide 24: KPI & Benchmark"""
+        slide = self.prs.slides.add_slide(self.prs.slide_layouts[5])
+
+        title = slide.shapes.title
+        title.text = "KPI Targets & Benchmarks"
+
+        content_box = slide.shapes.add_textbox(Inches(1), Inches(1.8), Inches(8), Inches(4.5))
+        tf = content_box.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = "SUCCESS METRICS"
+        p.font.size = Pt(14)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(0, 32, 96)
+
+        p = tf.add_paragraph()
+        p.text = ""
+        p.space_after = Pt(10)
+
+        p = tf.add_paragraph()
+        p.text = "📊 ORGANIC TRAFFIC CTR"
+        p.font.size = Pt(12)
+        p.font.bold = True
+
+        p = tf.add_paragraph()
+        p.text = "• Current: Requires GSC data export"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Target: +1% improvement"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Industry Benchmark: 3-5% average"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = ""
+        p.space_after = Pt(10)
+
+        p = tf.add_paragraph()
+        p.text = "📈 RANKING POSITION"
+        p.font.size = Pt(12)
+        p.font.bold = True
+
+        p = tf.add_paragraph()
+        p.text = "• Current: Requires SEMrush keyword position data"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Target: 10-50% improvement on target keywords"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = ""
+        p.space_after = Pt(10)
+
+        p = tf.add_paragraph()
+        p.text = "🎯 ORGANIC SESSIONS"
+        p.font.size = Pt(12)
+        p.font.bold = True
+
+        p = tf.add_paragraph()
+        p.text = "• Current: Requires GA4 organic session count"
+        p.font.size = Pt(11)
+        p.level = 1
+
+        p = tf.add_paragraph()
+        p.text = "• Target: +15% growth within 6 months"
+        p.font.size = Pt(11)
+        p.level = 1
+
     def _add_thank_you_slide(self):
-        """Final slide: Thank You"""
+        """Slide 25: Thank You"""
         slide = self.prs.slides.add_slide(self.prs.slide_layouts[6])
 
         # Thank you message
