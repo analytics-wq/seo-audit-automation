@@ -145,6 +145,313 @@ class SEOStrategist:
         return "M"  # Default
 
 
+class SlideAnalyzer:
+    """
+    Implements slide_logic.md analytical framework
+    Transforms technical data into strategic business narratives
+
+    STRICT on Process: Follows slide_logic.md rules exactly
+    CREATIVE on Insight: Generates persuasive, strategic content
+    PROFESSIONAL Tone: Senior SEO Consultant voice
+    """
+
+    def __init__(self, strategist, data):
+        self.strategist = strategist
+        self.data = data
+        self.transition_words = ["but", "which", "leaving", "causing", "indicating", "exposing", "while", "though"]
+
+    def generate_unified_key_message(self, insight, significance, consequence):
+        """
+        Generates unified key message following slide_logic.md formula:
+        [Insight] + [Significance] + [Business Consequence]
+
+        Rules from slide_logic.md:
+        - Must be one sentence
+        - Must include transition word
+        - Must end with business consequence
+        - Max 30 words
+        """
+        # Select transition word based on context
+        if "but" not in significance and "which" not in significance:
+            transition = "which"
+            message = f"{insight} {significance}, {transition} {consequence}"
+        else:
+            message = f"{insight} {significance}, {consequence}"
+
+        # Remove extra spaces
+        message = " ".join(message.split())
+
+        # Ensure ends with period
+        if not message.endswith("."):
+            message += "."
+
+        # Truncate if exceeds 30 words (preserve meaning)
+        words = message.split()
+        if len(words) > 30:
+            message = " ".join(words[:30]) + "..."
+
+        return message
+
+    def calculate_slide_priority(self, slide_type, metrics):
+        """
+        Assigns priority badge (C/H/M/L) following slide_logic.md rules
+
+        Args:
+            slide_type: Type of slide (organic_traffic, competitive, engagement, etc.)
+            metrics: Dict of metrics for the slide
+
+        Returns:
+            Priority badge: "C" (Critical), "H" (High), "M" (Medium), "L" (Low)
+        """
+        if slide_type == "organic_traffic":
+            organic_pct = metrics.get("organic_percentage", 50)
+            yoy_change = metrics.get("yoy_change", 0)
+            page2_plus = metrics.get("page2_plus_percentage", 50)
+
+            if organic_pct < 30:
+                return "C"  # Paid dependency = margin risk
+            elif yoy_change < -15:
+                return "H"  # Market share erosion
+            elif page2_plus > 50:
+                return "H"  # Competitors capture demand
+            elif organic_pct < 50:
+                return "M"  # Optimization opportunity
+            else:
+                return "L"  # Healthy baseline
+
+        elif slide_type == "competitive":
+            rank_position = metrics.get("rank_position", 3)  # Where brand ranks (1=best)
+            traffic_gap = metrics.get("traffic_vs_leader", 100)  # % of leader's traffic
+            page1_gap = metrics.get("page1_vs_leader", 100)  # % of leader's page 1 keywords
+
+            if rank_position >= 5:  # Last place on 3+ metrics
+                return "C"  # Severely disadvantaged
+            elif traffic_gap < 50:
+                return "H"  # Significant market share gap
+            elif page1_gap < 50:
+                return "H"  # Visibility gap
+            elif rank_position > 2:
+                return "M"  # Authority is the constraint
+            else:
+                return "L"  # Defensive position
+
+        elif slide_type == "engagement":
+            engagement_drop = metrics.get("engagement_drop_pct", 0)
+            avg_time = metrics.get("avg_engagement_seconds", 60)
+            engagement_rate = metrics.get("engagement_rate", 50)
+
+            if engagement_drop > 10:
+                return "H"  # Traffic quality eroding
+            elif avg_time < 30:
+                return "H"  # Content-intent mismatch
+            elif engagement_rate < 50:
+                return "M"  # Optimization opportunity
+            else:
+                return "L"  # Quality traffic
+
+        elif slide_type == "site_health":
+            health_score = metrics.get("health_score", 75)
+
+            if health_score < 60:
+                return "C"  # Fundamental crawl/index problems
+            elif health_score < 75:
+                return "H"  # Significant technical debt
+            elif health_score < 85:
+                return "M"  # Maintenance issues
+            else:
+                return "L"  # Clean foundation
+
+        elif slide_type == "meta_tags":
+            title_issue_pct = metrics.get("title_issue_pct", 0)
+            meta_desc_pct = metrics.get("meta_desc_missing_pct", 0)
+
+            if title_issue_pct > 20:
+                return "C"  # Major ranking signal loss
+            elif meta_desc_pct > 30:
+                return "H"  # CTR suppression
+            elif title_issue_pct > 5:
+                return "M"  # Maintenance task
+            else:
+                return "L"  # Clean foundation
+
+        elif slide_type == "technical_issues":
+            indexing_blocked_pct = metrics.get("indexing_blocked_pct", 0)
+            core_vitals_fail = metrics.get("core_vitals_failing", False)
+
+            if indexing_blocked_pct > 10:
+                return "C"  # Content investment wasted
+            elif core_vitals_fail:
+                return "H"  # Ranking suppression
+            else:
+                return "M"  # Maintenance task
+
+        elif slide_type == "domain_authority":
+            dr_decline = metrics.get("dr_decline_6mo", 0)
+            dr_vs_avg = metrics.get("dr_vs_competitor_avg", 100)  # % of competitor avg
+
+            if dr_decline > 5:
+                return "C"  # Authority erosion
+            elif dr_vs_avg < 70:
+                return "H"  # Can't compete for target keywords
+            elif dr_vs_avg < 90:
+                return "M"  # Stagnation
+            else:
+                return "L"  # Competitive position
+
+        return "M"  # Default
+
+    def translate_technical_to_business(self, technical_finding, context=None):
+        """
+        Translates technical findings into business impact language
+        Following template_rules.md Strategic Partner voice
+        """
+        business_translations = {
+            # Technical findings → Business impact
+            "indexing_issues": "Content investments invisible to search — Google cannot serve pages to searchers actively seeking solutions",
+            "weak_content_signals": "Ranking opportunities flowing to competitors — poor signals surrender valuable SERP positions",
+            "poor_authority": "Inability to compete in high-value SERPs — even optimized content cannot outrank established players",
+            "low_ctr": "Demand exists but traffic fails to convert — competitors capture qualified clicks",
+            "slow_speed": "Users abandon before engaging — poor Core Web Vitals trigger both ranking suppression and visitor loss",
+            "cannibalization": "Internal competition dilutes authority — pages compete against themselves instead of competitors",
+            "broken_links": "Navigation blind spots fragment user journeys — link equity hemorrhages through broken pathways",
+            "duplicate_content": "Google cannot differentiate value propositions — pages compete for the same rankings",
+            "missing_meta": "Search engines control your messaging — lost opportunity to capture qualified clicks",
+            "weak_backlinks": "Authority ceiling limits competitive reach — unable to rank for high-difficulty commercial terms",
+        }
+
+        # Return business translation or construct one
+        if technical_finding in business_translations:
+            return business_translations[technical_finding]
+
+        # Construct business impact dynamically
+        if "error" in technical_finding.lower():
+            return f"{technical_finding.capitalize()} creates friction in the customer journey, limiting conversion potential"
+        elif "missing" in technical_finding.lower():
+            return f"{technical_finding.capitalize()} surrenders control to search engines, reducing click-through opportunity"
+        else:
+            return f"{technical_finding.capitalize()} constrains organic growth potential"
+
+    def generate_slide_7_organic_traffic(self):
+        """
+        Slide 7: Organic Traffic Analysis
+        Following slide_logic.md analytical framework
+        """
+        # Data extraction (STRICT process)
+        organic_pct = 50  # Placeholder - would extract from GA4
+        yoy_change = 0    # Placeholder
+        page2_plus = 50   # Placeholder
+
+        # Priority calculation
+        priority = self.calculate_slide_priority("organic_traffic", {
+            "organic_percentage": organic_pct,
+            "yoy_change": yoy_change,
+            "page2_plus_percentage": page2_plus
+        })
+
+        # Unified key message (CREATIVE insight)
+        if priority == "C":
+            insight = f"Organic search contributes only {organic_pct}% of total traffic"
+            significance = "creating dangerous dependency on paid channels"
+            consequence = "exposing margin compression risk if advertising costs escalate"
+        elif priority == "H":
+            insight = f"Organic traffic declined {abs(yoy_change)}% year-over-year while competitors captured market share"
+            significance = "indicating erosion in competitive positioning"
+            consequence = "leaving qualified demand flowing to alternatives"
+        else:
+            insight = f"Organic search dominates at {organic_pct}% of traffic"
+            significance = "but {page2_plus}% of keywords languish on page 2+"
+            consequence = "leaving mid-funnel demand untapped"
+
+        key_message = self.generate_unified_key_message(insight, significance, consequence)
+
+        return {
+            "priority": priority,
+            "key_message": key_message,
+            "priority_label": self._get_priority_label(priority),
+            "analysis": f"Current organic percentage: {organic_pct}% | Page 2+ keywords: {page2_plus}% | Strategic focus: {self._get_strategic_focus(priority)}"
+        }
+
+    def generate_slide_10_site_health(self):
+        """
+        Slide 10: Site Health
+        Following slide_logic.md framework — strict data, creative narrative
+        """
+        # Data extraction (STRICT)
+        health_score = self.data.get("site_health", {}).get("score", 75)
+        pages_crawled = self.data.get("crawl_stats", {}).get("pages_crawled", 10000)
+        total_errors = self.data.get("crawl_stats", {}).get("total_errors", 500)
+
+        error_percentage = (total_errors / pages_crawled * 100) if pages_crawled > 0 else 0
+
+        # Priority calculation
+        priority = self.calculate_slide_priority("site_health", {
+            "health_score": health_score
+        })
+
+        # Unified key message (CREATIVE insight) — Senior SEO Consultant voice
+        if priority == "C":
+            insight = f"Site health score of {health_score}% exposes fundamental infrastructure deficiencies"
+            significance = f"with {total_errors:,} critical errors fragmenting crawl efficiency across {pages_crawled:,} pages"
+            consequence = "causing Googlebot to waste budget on broken states instead of indexing revenue-generating content"
+        elif priority == "H":
+            insight = f"Technical health at {health_score}% reveals significant debt accumulated across {total_errors:,} issues"
+            significance = f"affecting {error_percentage:.1f}% of crawled pages"
+            consequence = "limiting Google's ability to effectively discover and rank valuable content"
+        elif priority == "M":
+            insight = f"Site health registers {health_score}% with {total_errors:,} maintenance-level issues"
+            significance = "indicating foundation is stable though optimization opportunities exist"
+            consequence = "allowing strategic focus to shift toward content depth and authority building"
+        else:
+            insight = f"Technical foundation demonstrates excellence at {health_score}% health score"
+            significance = f"with only {total_errors:,} minor issues detected across {pages_crawled:,} pages"
+            consequence = "confirming infrastructure supports aggressive content and authority initiatives"
+
+        key_message = self.generate_unified_key_message(insight, significance, consequence)
+
+        return {
+            "priority": priority,
+            "key_message": key_message,
+            "priority_label": self._get_priority_label(priority),
+            "health_score": health_score,
+            "pages_crawled": pages_crawled,
+            "total_errors": total_errors,
+            "error_percentage": error_percentage,
+            "analysis": self._generate_site_health_analysis(priority, health_score, total_errors)
+        }
+
+    def _generate_site_health_analysis(self, priority, score, errors):
+        """Generate strategic analysis for site health"""
+        if priority == "C":
+            return f"Critical remediation required. Infrastructure barriers are blocking {errors:,} pages from contributing to organic growth. Immediate action: systematic audit and emergency fixes within 48 hours."
+        elif priority == "H":
+            return f"Significant technical debt requires structured remediation. {errors:,} issues are fragmenting site quality signals. Recommended: phased approach prioritizing high-value pages first."
+        elif priority == "M":
+            return f"Foundation is stable with {errors:,} maintenance items. Technical health at {score}% supports growth initiatives. Focus: ongoing monitoring and gradual optimization."
+        else:
+            return f"Exceptional technical foundation at {score}%. Infrastructure is not a constraint. Strategic opportunity: maximize this advantage with aggressive content expansion."
+
+    def _get_priority_label(self, priority):
+        """Convert priority badge to visual label"""
+        labels = {
+            "C": "🔴 CRITICAL",
+            "H": "🟣 HIGH",
+            "M": "🟡 MEDIUM",
+            "L": "🟢 LOW"
+        }
+        return labels.get(priority, "🟡 MEDIUM")
+
+    def _get_strategic_focus(self, priority):
+        """Determine strategic focus based on priority"""
+        if priority == "C":
+            return "Emergency remediation required"
+        elif priority == "H":
+            return "Systematic optimization needed"
+        elif priority == "M":
+            return "Opportunistic improvement"
+        else:
+            return "Maintain competitive advantage"
+
+
 class PDFDataExtractor:
     """
     Extracts structured data from SEMrush Site Audit PDF using pdfplumber.
@@ -317,6 +624,10 @@ class PowerPointGenerator:
         self.strategist = strategist
         self.data = data
 
+        # Initialize SlideAnalyzer for strategic insights (slide_logic.md framework)
+        self.analyzer = SlideAnalyzer(strategist, data)
+        print(f"   ✓ SlideAnalyzer initialized (slide_logic.md framework)")
+
         # Load template if exists, otherwise create new presentation
         from pathlib import Path as PathlibPath
         template_file = PathlibPath(__file__).parent / template_path
@@ -425,26 +736,22 @@ class PowerPointGenerator:
         }
 
     def _populate_data_slides(self):
-        """Populate slides 6-9 with actual data"""
-        # Slide 9: Site Health (has actual extracted data)
-        health_score = self.data.get("site_health", {}).get("score", 75)
-        pages_crawled = self.data.get("crawl_stats", {}).get("pages_crawled", 10000)
-        total_errors = self.data.get("crawl_stats", {}).get("total_errors", 500)
+        """
+        Populate slides 6-9 with actual data using SlideAnalyzer
+        STRICT on data extraction, CREATIVE on strategic insights
+        """
+        # Slide 9: Site Health — Use SlideAnalyzer for strategic narrative
+        print("   → Generating strategic insights using slide_logic.md framework...")
 
-        priority = self.strategist.calculate_priority(health_score=health_score)
-        priority_label = {"C": "🔴 CRITICAL", "H": "🟣 HIGH", "M": "🟡 MEDIUM", "L": "🟢 LOW"}[priority]
-
-        if priority in ["C", "H"]:
-            key_highlight = f"Site health at {health_score}% reflects {total_errors:,} technical issues fragmenting site quality signals across {pages_crawled:,} crawled pages."
-        else:
-            key_highlight = f"Technical foundation is solid at {health_score}% health score, with {total_errors:,} minor issues to address."
+        site_health_analysis = self.analyzer.generate_slide_10_site_health()
 
         self._populate_slide(9, {
-            "{Priority}": priority_label,
-            "{Key Highlight}": key_highlight,
-            "{Observation & Analysis}": f"Crawled {pages_crawled:,} pages | Found {total_errors:,} issues | Priority: Systematic remediation required"
+            "{Priority}": site_health_analysis["priority_label"],
+            "{Key Highlight}": site_health_analysis["key_message"],
+            "{Observation & Analysis}": site_health_analysis["analysis"]
         })
-        print("   ✓ Slide 9: Site Health populated with extracted data")
+        print(f"   ✓ Slide 9: Site Health [{site_health_analysis['priority_label']}]")
+        print(f"      Key Message: {site_health_analysis['key_message'][:80]}...")
 
     def _populate_summary_slide(self, slide_index, section_type):
         """Populate section summary slides"""
