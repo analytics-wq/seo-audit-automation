@@ -1,0 +1,72 @@
+{
+  "project": {
+    "name": "SEO Audit Automation Tool",
+    "version": "1.0.0"
+  },
+  "default_settings": {
+    "website_type": "ecommerce",
+    "output_directory": "./output",
+    "data_directory": "./raw_data"
+  },
+  "priority_thresholds": {
+    "organic_traffic": {
+      "critical": {
+        "organic_pct_below": 30
+      },
+      "high": {
+        "yoy_decline_above": 15,
+        "page_2_plus_keywords_above": 50
+      }
+    },
+    "site_health": {
+      "critical": {
+        "health_score_below": 60
+      },
+      "high": {
+        "health_score_below": 75
+      },
+      "medium": {
+        "health_score_below": 85
+      }
+    },
+    "engagement": {
+      "high": {
+        "engagement_rate_drop_above": 10,
+        "avg_engagement_time_below_seconds": 30
+      }
+    }
+  },
+  "narrative_templates": {
+    "organic_traffic": {
+      "pattern": "Organic search is [status] but [limitation], leaving [business consequence].",
+      "transition_words": ["but", "leaving"]
+    },
+    "competitive": {
+      "pattern": "{Brand} [position] competitors on [metric], which [consequence].",
+      "transition_words": ["which"]
+    },
+    "engagement": {
+      "pattern": "Engagement [trend] despite [context], indicating [consequence].",
+      "transition_words": ["indicating"]
+    }
+  },
+  "output_formats": {
+    "powerpoint": {
+      "enabled": true,
+      "slide_width_inches": 10,
+      "slide_height_inches": 7.5
+    },
+    "json": {
+      "enabled": true,
+      "pretty_print": true
+    },
+    "markdown": {
+      "enabled": false
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "colored",
+    "file_output": false
+  }
+}
